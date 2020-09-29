@@ -1,6 +1,6 @@
 # bable & ts
 .babelrc
-.tsconfig
+tsconfig.json
 
 # git
 .gitignore
