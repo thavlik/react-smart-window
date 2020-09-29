@@ -1,0 +1,20 @@
+# bable & ts
+.babelrc
+.tsconfig
+
+# git
+.gitignore
+
+# code
+node_modules/
+example/
+src/
+
+# npm
+.npm
+
+# webpack
+webpack.config.js
+
+# misc
+.editorconfig
