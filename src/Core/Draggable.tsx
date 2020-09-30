@@ -5,8 +5,8 @@ interface IDraggableState {
   isDragging: boolean;
   offsetX?: number;
   offsetY?: number;
-  startPageX?: number;
-  startPageY?: number;
+  startPageX: number;
+  startPageY: number;
   offsetPageX?: number;
   offsetPageY?: number;
 }
@@ -16,10 +16,12 @@ class Draggable extends React.Component<IDraggableProps, IDraggableState> {
     super(props);
     this.state = {
       isDragging: false,
+      startPageX: 0,
+      startPageY: 0,
     };
   }
 
-  onMouseDownHandler = (e: any) => {
+  onMouseDownHandler = (e: React.MouseEvent) => {
     this.setState({
       isDragging: true,
       offsetPageY: e.pageY,
@@ -29,7 +31,21 @@ class Draggable extends React.Component<IDraggableProps, IDraggableState> {
     });
   };
 
-  onMouseUpHandler = (e: any) => {
+  onMouseMoveHandler = (e: React.MouseEvent) => {
+    const { startPageX, startPageY, isDragging } = this.state;
+    if (isDragging) {
+      let offsetX = e.pageX - startPageX;
+      let offsetY = e.pageY - startPageY;
+      offsetX = offsetX > 0 ? offsetX : 0;
+      offsetY = offsetY > 0 ? offsetY : 0;
+      this.setState({
+        offsetPageX: offsetX,
+        offsetPageY: offsetY,
+      });
+    }
+  };
+
+  onMouseUpHandler = (e: React.MouseEvent) => {
     this.setState({
       isDragging: false,
       offsetPageY: e.pageY,
@@ -51,6 +67,8 @@ class Draggable extends React.Component<IDraggableProps, IDraggableState> {
     return (
       <div
         onMouseDown={this.onMouseDownHandler}
+        onMouseMove={this.onMouseMoveHandler}
+        onMouseUp={this.onMouseUpHandler}
         style={this.getDraggingStyle()}
       >
         <button>click</button>
