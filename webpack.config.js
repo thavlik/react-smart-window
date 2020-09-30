@@ -33,7 +33,7 @@ module.exports = {
     },
     plugins: [htmlWebpackPlugin],
     resolve: {
-        extensions: [".js", ".jsx", ".tsx", ".ts"]
+        extensions: [".js", ".jsx", ".tsx", ".ts", ".css"]
     },
     devServer: {
         port: 3000

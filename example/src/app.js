@@ -1,6 +1,6 @@
 import React from "react";
 import { render } from "react-dom";
-import ReactDemo from "../../src";
+import Sample from "../../src";
 
-const App = () => <ReactDemo />;
+const App = () => <Sample />;
 render(<App />, document.getElementById("root"));
