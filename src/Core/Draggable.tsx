@@ -1,77 +1,87 @@
-import React from "react";
+import React, { createRef } from "react";
+
+import styles from "./Draggable.module.css";
 
 interface IDraggableProps {}
 interface IDraggableState {
   isDragging: boolean;
-  offsetX?: number;
-  offsetY?: number;
-  startPageX: number;
-  startPageY: number;
-  offsetPageX?: number;
-  offsetPageY?: number;
+  startX: number;
+  startY: number;
+  left?: number;
+  top?: number;
 }
 
 class Draggable extends React.Component<IDraggableProps, IDraggableState> {
+  wrapper: React.RefObject<HTMLDivElement>;
   constructor(props: IDraggableProps) {
     super(props);
+    this.wrapper = createRef();
     this.state = {
       isDragging: false,
-      startPageX: 0,
-      startPageY: 0,
+      startX: 0,
+      startY: 0,
     };
   }
-
   onMouseDownHandler = (e: React.MouseEvent) => {
+    console.log("mouse Down");
     this.setState({
       isDragging: true,
-      offsetPageY: e.pageY,
-      startPageY: e.pageY,
-      offsetPageX: e.pageX,
-      startPageX: e.pageX,
+      startX: e.clientX,
+      startY: e.clientY,
     });
   };
 
   onMouseMoveHandler = (e: React.MouseEvent) => {
-    const { startPageX, startPageY, isDragging } = this.state;
-    if (isDragging) {
-      let offsetX = e.pageX - startPageX;
-      let offsetY = e.pageY - startPageY;
-      offsetX = offsetX > 0 ? offsetX : 0;
-      offsetY = offsetY > 0 ? offsetY : 0;
+    const { isDragging, startX, startY } = this.state;
+    const node = this.wrapper.current;
+    if (isDragging && node) {
+      console.log("Dragging");
+      const rect = node.getBoundingClientRect();
+      const { left, top } = rect;
+      const { clientX, clientY } = e;
+      const offsetX = clientX - startX;
+      const offsetY = clientY - startY;
+      // TODO: boundary check
+      const new_left = left + offsetX;
+      const new_top = top + offsetY;
+
       this.setState({
-        offsetPageX: offsetX,
-        offsetPageY: offsetY,
+        startX: clientX,
+        startY: clientY,
+        left: new_left,
+        top: new_top,
       });
     }
   };
 
   onMouseUpHandler = (e: React.MouseEvent) => {
+    console.log("mouse up");
     this.setState({
       isDragging: false,
-      offsetPageY: e.pageY,
-      startPageY: 0,
-      offsetPageX: e.pageX,
-      startPageX: 0,
     });
   };
 
   getDraggingStyle = () => {
-    const { offsetPageX, offsetPageY } = this.state;
-    return {
-      transform: `translate(${offsetPageX}px,${offsetPageY}px)`,
-      opacity: 0.5,
-    };
+    const { left, top } = this.state;
+    console.log(left,top);
+    if (left && top) {
+      return {
+        left: `${left}px`,
+        top: `${top}px`,
+      };
+    }
   };
 
   render() {
     return (
       <div
+        ref={this.wrapper}
         onMouseDown={this.onMouseDownHandler}
         onMouseMove={this.onMouseMoveHandler}
         onMouseUp={this.onMouseUpHandler}
         style={this.getDraggingStyle()}
+        className={styles.wrapper}
       >
-        <button>click</button>
         {this.props.children}
       </div>
     );
