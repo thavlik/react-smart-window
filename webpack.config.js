@@ -1,18 +1,27 @@
 const path = require('path');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+
 const htmlWebpackPlugin = new HtmlWebpackPlugin({
     template: path.join(__dirname, "./example/src/index.html"),
     filename: "./index.html"
 });
 
 module.exports = {
-    entry: path.join(__dirname, "./example/src/app.js"),
-    devtool: 'inline-source-map',
+    mode: "development",
+    // entry: path.join(__dirname, "./example/src/app.js"),
+    entry: path.join(__dirname, "./src/index.tsx"),
+    // devtool: 'inline-source-map',
     output: {
         path: path.join(__dirname, "./dist/"),
         filename: "index.js",
         libraryTarget: 'umd',
         libraryExport: 'default',
+    },
+    optimization: {
+        minimizer: [
+            new UglifyJsPlugin()
+        ]
     },
     module: {
         rules: [{

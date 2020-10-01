@@ -23,7 +23,7 @@ class Draggable extends React.Component<IDraggableProps, IDraggableState> {
     };
   }
   onMouseDownHandler = (e: React.MouseEvent) => {
-    console.log("mouse Down");
+    console.log(e.type);
     this.setState({
       isDragging: true,
       startX: e.clientX,
@@ -32,10 +32,10 @@ class Draggable extends React.Component<IDraggableProps, IDraggableState> {
   };
 
   onMouseMoveHandler = (e: React.MouseEvent) => {
+    e.preventDefault();
     const { isDragging, startX, startY } = this.state;
     const node = this.wrapper.current;
     if (isDragging && node) {
-      console.log("Dragging");
       const rect = node.getBoundingClientRect();
       const { left, top } = rect;
       const { clientX, clientY } = e;
@@ -55,7 +55,6 @@ class Draggable extends React.Component<IDraggableProps, IDraggableState> {
   };
 
   onMouseUpHandler = (e: React.MouseEvent) => {
-    console.log("mouse up");
     this.setState({
       isDragging: false,
     });
@@ -63,7 +62,6 @@ class Draggable extends React.Component<IDraggableProps, IDraggableState> {
 
   getDraggingStyle = () => {
     const { left, top } = this.state;
-    console.log(left,top);
     if (left && top) {
       return {
         left: `${left}px`,
