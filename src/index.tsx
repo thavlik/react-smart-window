@@ -1,16 +1,6 @@
-// import React from "react";
-
 import Window from "./Window/Window";
+import Draggable from "./Core/Draggable";
 
-// import styles from "./index.module.css";
-
-// class Sample extends React.Component {
-//   render() {
-//     return (
-//       <Window>
-//         <div className={styles.wrapper}></div>
-//       </Window>
-//     );
-//   }
-// }
 export default Window;
+
+export { Draggable };

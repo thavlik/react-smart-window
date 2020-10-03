@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createRef } from "react";
 import Title from "./Title/Title";
 import Draggable from "../Core/Draggable";
 
@@ -15,7 +15,7 @@ export default class Window extends React.Component<WindowProps> {
       <Draggable>
         <div className={styles.wrapper}>
           <Title>{this.props.title}</Title>
-          {this.props.children}
+          <div className={styles.content}>{this.props.children}</div>
         </div>
       </Draggable>
     );

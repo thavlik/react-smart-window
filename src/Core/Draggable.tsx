@@ -23,7 +23,8 @@ class Draggable extends React.Component<IDraggableProps, IDraggableState> {
     };
   }
   onMouseDownHandler = (e: React.MouseEvent) => {
-    console.log(e.type);
+    // @ts-ignore
+    if (!e.target.draggable && !e.target.parentNode.draggable) return;
     this.setState({
       isDragging: true,
       startX: e.clientX,

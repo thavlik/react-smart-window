@@ -3,13 +3,19 @@ import styles from "./title.module.css";
 
 declare interface TitleProps {
   children?: React.ReactNode;
+  actions?: React.ReactNode[];
 }
 
 export default function Title(props: TitleProps) {
+  const ActionList = props.actions ? (
+    <div className={styles.action}>{props.actions}</div>
+  ) : (
+    ""
+  );
   return (
-    <div key='draggable' className={styles.WindowTitle}>
-      <p key='draggable'>{props.children}</p>
-      <span>x</span>
+    <div className={styles.WindowTitle} draggable>
+      <p>{props.children}</p>
+      {ActionList}
     </div>
   );
 }
