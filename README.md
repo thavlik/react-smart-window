@@ -22,3 +22,7 @@ import Window,{Draggable} from 'react-smart-window'
 ```bash
 $ npm install react-smart-window
 ```
+
+### Future | TODO LIST:
+- Window actions
+- Window Group (Combine, Divide and split)
