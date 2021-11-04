@@ -25,6 +25,8 @@ class Draggable extends React.Component<IDraggableProps, IDraggableState> {
   onMouseDownHandler = (e: React.MouseEvent) => {
     // @ts-ignore
     if (!e.target.draggable && !e.target.parentNode.draggable) return;
+    window.addEventListener('mousemove', this.onMouseMoveHandler);
+    window.addEventListener('mouseup', this.onMouseUpHandler);
     this.setState({
       isDragging: true,
       startX: e.clientX,
@@ -56,6 +58,8 @@ class Draggable extends React.Component<IDraggableProps, IDraggableState> {
   };
 
   onMouseUpHandler = (e: React.MouseEvent) => {
+    window.removeEventListener('mousemove', this.onMouseMoveHandler);
+    window.removeEventListener('mouseup', this.onMouseUpHandler);
     this.setState({
       isDragging: false,
     });
@@ -76,8 +80,6 @@ class Draggable extends React.Component<IDraggableProps, IDraggableState> {
       <div
         ref={this.wrapper}
         onMouseDown={this.onMouseDownHandler}
-        onMouseMove={this.onMouseMoveHandler}
-        onMouseUp={this.onMouseUpHandler}
         style={this.getDraggingStyle()}
         className={styles.wrapper}
       >
